@@ -1,14 +1,15 @@
-package com.wanjian.demo.support;
+package com.wanjian.cockroach.debug;
 
 import android.app.Activity;
 import android.app.Application;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.wanjian.cockroach.Cockroach;
-import com.wanjian.demo.R;
+import com.wanjian.cockroach.R;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -25,29 +26,31 @@ public class DebugSafeModeUI {
     private static List<WeakReference<Activity>> sActivitysWRef = new ArrayList<>();
 
     public static void init(Application application) {
-        application.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacksAdapter() {
-            @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                super.onActivityCreated(activity, savedInstanceState);
-                sActivitysWRef.add(new WeakReference<>(activity));
-                if (Cockroach.isSafeMode()) {
-                    //进入安全模式后给新创建的act添加渐变绿色顶栏
-                    enterSafeMode(activity);
-                }
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-                super.onActivityDestroyed(activity);
-                for (WeakReference<Activity> reference : sActivitysWRef) {
-                    Activity act = reference.get();
-                    if (act == activity) {
-                        sActivitysWRef.remove(reference);
-                        return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            application.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacksAdapter() {
+                @Override
+                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                    super.onActivityCreated(activity, savedInstanceState);
+                    sActivitysWRef.add(new WeakReference<>(activity));
+                    if (Cockroach.isSafeMode()) {
+                        //进入安全模式后给新创建的act添加渐变绿色顶栏
+                        enterSafeMode(activity);
                     }
                 }
-            }
-        });
+
+                @Override
+                public void onActivityDestroyed(Activity activity) {
+                    super.onActivityDestroyed(activity);
+                    for (WeakReference<Activity> reference : sActivitysWRef) {
+                        Activity act = reference.get();
+                        if (act == activity) {
+                            sActivitysWRef.remove(reference);
+                            return;
+                        }
+                    }
+                }
+            });
+        }
         barHeight = (int) (application.getResources().getDisplayMetrics().density * 50);
     }
 

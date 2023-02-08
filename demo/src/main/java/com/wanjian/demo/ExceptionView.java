@@ -2,16 +2,17 @@ package com.wanjian.demo;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by wanjian on 2018/5/29.
  */
 
-public class ExceptionView extends Button {
+public class ExceptionView extends androidx.appcompat.widget.AppCompatButton {
     boolean excep = false;
 
     public ExceptionView(Context context) {

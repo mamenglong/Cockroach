@@ -1,1 +1,22 @@
-include ':app', ':demo'
+pluginManagement {
+    repositories {
+        mavenLocal()
+        maven {url 'https://nexus.hupu.io/repository/hupu-android/'}
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        jcenter()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenLocal()
+        maven {url 'https://nexus.hupu.io/repository/hupu-android/'}
+        google()
+        mavenCentral()
+        jcenter()
+    }
+}
+include ':cockroach'
+include ':demo'

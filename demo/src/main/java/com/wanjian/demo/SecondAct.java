@@ -2,15 +2,16 @@ package com.wanjian.demo;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
@@ -46,7 +47,7 @@ public class SecondAct extends Activity {
             }
 
             @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
                 ((TextView) holder.itemView.getTag(R.id.txt)).setText(String.valueOf(position));
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {

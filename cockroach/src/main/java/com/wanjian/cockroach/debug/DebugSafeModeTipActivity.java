@@ -1,12 +1,13 @@
-package com.wanjian.demo.support;
+package com.wanjian.cockroach.debug;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.wanjian.demo.R;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.wanjian.cockroach.R;
 
 
 /**

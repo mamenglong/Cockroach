@@ -27,7 +27,6 @@ public final class Cockroach {
     private static ExceptionHandler sExceptionHandler;
     private static boolean sInstalled = false;//标记位，避免重复安装卸载
     private static boolean sIsSafeMode;
-
     private Cockroach() {
     }
 

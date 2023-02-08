@@ -1,17 +1,14 @@
 package com.wanjian.demo;
 
 import android.app.Application;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.wanjian.cockroach.Cockroach;
+import com.wanjian.cockroach.CockroachConfig;
+import com.wanjian.cockroach.CockroachStart;
 import com.wanjian.cockroach.ExceptionHandler;
-import com.wanjian.demo.support.CrashLog;
-import com.wanjian.demo.support.DebugSafeModeTipActivity;
-import com.wanjian.demo.support.DebugSafeModeUI;
 
 /**
  * Created by wanjian on 2018/5/19.
@@ -29,12 +26,10 @@ public class App extends Application {
     private void install() {
         final Thread.UncaughtExceptionHandler sysExcepHandler = Thread.getDefaultUncaughtExceptionHandler();
         final Toast toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
-        DebugSafeModeUI.init(this);
-        Cockroach.install(this, new ExceptionHandler() {
+        CockroachStart.INSTANCE.install(this, new CockroachConfig.Builder().setDebug(BuildConfig.DEBUG).build(), new ExceptionHandler() {
             @Override
             protected void onUncaughtExceptionHappened(Thread thread, Throwable throwable) {
                 Log.e("AndroidRuntime", "--->onUncaughtExceptionHappened:" + thread + "<---", throwable);
-                CrashLog.saveCrashLog(getApplicationContext(), throwable);
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
@@ -55,13 +50,6 @@ public class App extends Application {
             protected void onEnterSafeMode() {
                 int tips = R.string.safe_mode_tips;
                 Toast.makeText(App.this, getResources().getString(tips), Toast.LENGTH_LONG).show();
-                DebugSafeModeUI.showSafeModeUI();
-
-                if (BuildConfig.DEBUG) {
-                    Intent intent = new Intent(App.this, DebugSafeModeTipActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }
             }
 
             @Override

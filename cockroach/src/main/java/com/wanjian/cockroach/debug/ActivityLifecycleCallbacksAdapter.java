@@ -1,4 +1,4 @@
-package com.wanjian.demo.support;
+package com.wanjian.cockroach.debug;
 
 import android.app.Activity;
 import android.app.Application;
