@@ -15,7 +15,6 @@ object CockroachStart {
     fun install(context: Context,cockroachConfig:CockroachConfig,exceptionHandler:ExceptionHandler? = null){
         this.cockroachConfig = cockroachConfig
         this.exceptionHandler = exceptionHandler
-        val sysExcepHandler = Thread.getDefaultUncaughtExceptionHandler()
         if (cockroachConfig.isDebug()){
             DebugSafeModeUI.init(context as Application)
         }
@@ -49,7 +48,7 @@ object CockroachStart {
                 val thread = Looper.getMainLooper().thread
                 CockroachLog.loge("--->onUncaughtExceptionHappened:$thread<---", e)
                 //黑屏时建议直接杀死app
-                sysExcepHandler.uncaughtException(thread, RuntimeException("black screen"))
+                exceptionHandler?.onMayBeBlackScreen(e)
             }
         })
     }
